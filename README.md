@@ -1,4 +1,7 @@
-`active-window-screenshot` is a simple screenshot tool for X11.
+`hotkeys.go` is a basic hotkeys tool for X11, born from the need to take
+screenshots quickly while dwm made it annoying to tee and pipe.
+
+## screenshots
 
 It captures the active focused window, the root window or a user defined area
 and copy the PNG to X11 clipboard, to be pasted somewhere else and also creates
