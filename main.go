@@ -17,16 +17,23 @@ func main() {
 
 	keybind.Initialize(X)
 
-	err = keybind.KeyPressFun(
-		func(X *xgbutil.XUtil, e xevent.KeyPressEvent) {
-			err := exec.Command("/bin/sh", "-c", "import -window \"$(xdotool getwindowfocus)\" png:- | xclip -t image/png -selection c").Run()
-			if err != nil {
-				log.Printf(".. Screenshot failed with %s\n", err)
-			}
-			log.Printf(".. Screenshot done!")
-		}).Connect(X, X.RootWin(), "Mod1-Print", true)
-	if err != nil {
-		log.Fatal(err)
+	maps := map[string]string{
+		"Mod1-Print":               "import png:-  | tee \"~/tmp/screenshot-$(date +'%Y-%m-%d-%T')\".png | xclip -t image/png -selection c",
+		"Mod1-shift-Print":         "import -window \"$(xdotool getwindowfocus)\" png:- | tee \"~/tmp/screenshot-$(date +'%Y-%m-%d-%T')\".png | xclip -t image/png -selection c",
+		"Mod1-control-shift-Print": "import -window root png:-  | tee \"~/tmp/screenshot-$(date +'%Y-%m-%d-%T')\".png | xclip -t image/png -selection c",
+	}
+	for k, v := range maps {
+		err = keybind.KeyPressFun(
+			func(X *xgbutil.XUtil, e xevent.KeyPressEvent) {
+				err := exec.Command("/bin/sh", "-c", v).Run()
+				if err != nil {
+					log.Printf(".. Screenshot failed with %s\n", err)
+				}
+				log.Printf(".. Screenshot done!")
+			}).Connect(X, X.RootWin(), k, true)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	log.Println("Program initialized. Start pressing keys!")
