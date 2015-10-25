@@ -7,9 +7,9 @@ It captures the active focused window, the root window or a user defined area
 and copy the PNG to X11 clipboard, to be pasted somewhere else and also creates
 the PNG in `~/tmp/`.
 
-- `mod1-Print`: active window
-- `mod1-shift-Print`: user defined area
-- `mod1-control-shift-Print`: root window
+- `Print`: active window
+- `mod1-Print`: user defined area
+- `mod1-shift-Print`: root window
 
 It consists of a simple go wrapper around `xdotool`, `xclip` and `imagemagick`.
 
