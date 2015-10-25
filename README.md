@@ -1,24 +1,81 @@
 `hotkeys.go` is a basic hotkeys tool for X11, born from the need to take
-screenshots quickly while dwm made it annoying to tee and pipe.
+screenshots quickly while dwm made it annoying to tee and pipe, doesn't like
+shell aliases, etc.
 
-## screenshots
 
-It captures the active focused window, the root window or a user defined area
-and copy the PNG to X11 clipboard, to be pasted somewhere else and also creates
-the PNG in `~/tmp/`.
+## installation
 
-- `Print`: active window
-- `mod1-Print`: user defined area
-- `mod1-shift-Print`: root window
+Providing a sane go workspace:
 
-It consists of a simple go wrapper around `xdotool`, `xclip` and `imagemagick`.
+`go get github.com/jeromenerf/hotkeys`
 
-Basically, it calls this one liner:
-			
-```sh
-import -window "$(xdotool getwindowfocus)" png:- | xclip -t image/png -selection c
+## usage
+
+Just run `hotkeys` and leave it watch your config file.
+
+Beware, this quick hack uses `inotify` since the cross platform `fsnotify`
+package has been left behind for a while now. Don't expect it to work on
+anything else than linux :/
+
+## configuration
+
+The configuration file lives at `~/.config/hotkeys.conf.json`:
+
+```json
+
+[
+  {
+    "key":  "Print",
+    "desc": "Take a screenshot of the active window",
+    "cmd":  "import -window \"$(xdotool getwindowfocus)\" png:- | tee ~/tmp/screenshot-$(date +'%Y-%m-%d-%T').png | xclip -t image/png -selection c"
+  },
+  {
+    "key":  "Mod1-Print",
+    "desc": "Take a screenshot of a user selected area",
+    "cmd":  "import png:- | tee ~/tmp/screenshot-$(date +'%Y-%m-%d-%T').png | xclip -t image/png -selection c"
+  },
+  {
+    "key":  "Mod1-Shift-Print",
+    "desc": "Take a screenshot of the root window",
+    "cmd":  "import -window root png:-  | tee ~/tmp/screenshot-$(date +'%Y-%m-%d-%T').png | xclip -t image/png -selection c"
+  },
+  {
+    "key": "XF86AudioPlay",
+    "desc": "Play",
+    "cmd": "for player in vlc spotify; do dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause; done"
+  },
+  {
+    "key": "XF86AudioStop",
+    "desc": "Stop",
+    "cmd": "for player in vlc spotify; do dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop; done"
+  },
+  {
+    "key": "XF86AudioNext",
+    "desc": "Next",
+    "cmd": "for player in vlc spotify; do dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next; done"
+  },
+  {
+    "key": "XF86AudioPrev",
+    "desc": "Previous",
+    "cmd": "for player in vlc spotify; do dbus-send --print-reply --dest=org.mpris.MediaPlayer2.$player /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous; done"
+  },
+  {
+    "key": "XF86Display",
+    "desc": "Switch displays auto magically",
+    "cmd": "xrandr --auto"
+  },
+  {
+    "key": "XF86ScreenSaver",
+    "desc": "Lock screen",
+    "cmd": "slock"
+  }
+]
 ```
 
-so I guess you could also bind this in your WM shortcuts or run this program
-and press `Mod1-Print` to trigger the capture. However, `dwm` making it a real
-PITA to spawn complex commands, here it goes.
+This sample uses lots of external tools :
+
+- `xdotool` to get various informations for x11 clients
+- (dbus) to send messages to audio players
+- `import` from `imagemagick`
+- `xclip` to copy paste from X11 clipboard
+- `slock` to lock screen
