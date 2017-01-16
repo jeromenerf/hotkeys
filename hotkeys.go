@@ -7,17 +7,16 @@ import (
 	"os/exec"
 	"os/user"
 
-	"golang.org/x/exp/inotify"
-
 	"github.com/BurntSushi/xgbutil"
 	"github.com/BurntSushi/xgbutil/keybind"
 	"github.com/BurntSushi/xgbutil/xevent"
 )
 
+// Hotkey maps a x11 `Key` with a given `Desc` description to an action `Cmd`, which is passed to a shell, so shellisms are accepted
 type Hotkey struct {
-	Key  string `json:key`
-	Desc string `json:desc`
-	Cmd  string `json:cmd`
+	Key  string `json:"key'`
+	Desc string `json:"desc"`
+	Cmd  string `json:"cmd"`
 }
 
 func main() {
@@ -33,31 +32,11 @@ func main() {
 	}
 	configfile := currentuser.HomeDir + "/.config/hotkeys.conf.json"
 
-	watcher, err := inotify.NewWatcher()
+	err = bindall(configfile, X)
 	if err != nil {
-		log.Fatal(err)
-	}
-	err = watcher.AddWatch(configfile, inotify.IN_CLOSE_WRITE)
-	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
-	go func() {
-		for {
-			select {
-			case ev := <-watcher.Event:
-				log.Println(ev)
-				err := bindall(configfile, X)
-				if err != nil {
-					log.Println(err)
-					continue
-				}
-
-			case err := <-watcher.Error:
-				log.Println("error:", err)
-			}
-		}
-	}()
 	err = bindall(configfile, X)
 	if err != nil {
 		log.Panicln(err)
