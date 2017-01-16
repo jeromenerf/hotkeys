@@ -1,0 +1,49 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "uvITTabOCklU9y+xHi7kwoHg8f8=",
+			"path": "github.com/BurntSushi/xgb",
+			"revision": "d3d84afd14161dc1c07449d8f9feb2dca6ccc10b",
+			"revisionTime": "2015-11-20T14:57:17Z"
+		},
+		{
+			"checksumSHA1": "3IGuZPDNFqhDtlAvMCMVZ4fKXho=",
+			"path": "github.com/BurntSushi/xgb/shape",
+			"revision": "d3d84afd14161dc1c07449d8f9feb2dca6ccc10b",
+			"revisionTime": "2015-11-20T14:57:17Z"
+		},
+		{
+			"checksumSHA1": "7w1HP4gzNGYAOdukMDwgaivciJ0=",
+			"path": "github.com/BurntSushi/xgb/xinerama",
+			"revision": "d3d84afd14161dc1c07449d8f9feb2dca6ccc10b",
+			"revisionTime": "2015-11-20T14:57:17Z"
+		},
+		{
+			"checksumSHA1": "YCGXvdLFTNP7PXsjI5YQu8lIWpU=",
+			"path": "github.com/BurntSushi/xgb/xproto",
+			"revision": "d3d84afd14161dc1c07449d8f9feb2dca6ccc10b",
+			"revisionTime": "2015-11-20T14:57:17Z"
+		},
+		{
+			"checksumSHA1": "fyh8mzTvElhiDUHWf76i1NSW/m0=",
+			"path": "github.com/BurntSushi/xgbutil",
+			"revision": "41e40dc1422bc8d5fd2de329c5621234bc3be17e",
+			"revisionTime": "2016-01-29T21:59:20Z"
+		},
+		{
+			"checksumSHA1": "RAOYInOYxnHerue4zD+2Bgi9dRE=",
+			"path": "github.com/BurntSushi/xgbutil/keybind",
+			"revision": "41e40dc1422bc8d5fd2de329c5621234bc3be17e",
+			"revisionTime": "2016-01-29T21:59:20Z"
+		},
+		{
+			"checksumSHA1": "xhABBy3BPm8VzSrEP5XIaZufb4s=",
+			"path": "github.com/BurntSushi/xgbutil/xevent",
+			"revision": "41e40dc1422bc8d5fd2de329c5621234bc3be17e",
+			"revisionTime": "2016-01-29T21:59:20Z"
+		}
+	],
+	"rootPath": "github.com/jeromenerf/hotkeys"
+}
